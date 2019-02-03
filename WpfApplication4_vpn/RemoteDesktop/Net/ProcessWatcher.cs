@@ -17,7 +17,7 @@ namespace RemoteDesktop.Net
     /// <summary>
     /// Logic for process monitoring.
     /// </summary>
-    class ProcessWatcher//TODO: change string button to object button
+    public class ProcessWatcher//TODO: change string button to object button
     {
         private Dictionary<int, string> rdplist;
         private bool _stop { get; set; } = false;
@@ -29,6 +29,8 @@ namespace RemoteDesktop.Net
         /// Launch if the process from the list is closed.
         /// </summary>
         public event ClosedProcessHandler ClosedProcess;
+
+        private ProcessWatcher() { }
 
         /// <summary>
         /// Initializes a new instance of the ProcessWatcher class with the process name specified as an <see cref="string"/>.
@@ -105,7 +107,7 @@ namespace RemoteDesktop.Net
             Equal
         }
 
-        private Difference NumberOfProcess()
+        private Difference NumberOfProcess()//Compare
         {
             if (Process.GetProcessesByName(processName).Length == rdplist.Count) return Difference.Equal;
             else if (Process.GetProcessesByName(processName).Length > rdplist.Count) return Difference.Greater;

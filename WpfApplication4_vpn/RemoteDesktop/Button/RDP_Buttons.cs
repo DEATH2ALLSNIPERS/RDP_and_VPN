@@ -47,7 +47,7 @@ namespace RemoteDesktop.Button
     /// <summary>
     /// Manage buttons.
     /// </summary>
-    class RDP_Buttons
+    public class RDP_Buttons
     {
         /// <summary>
         /// List of buttons information.
@@ -60,6 +60,14 @@ namespace RemoteDesktop.Button
         public RDP_Buttons()
         {
             Buttons = new List<Button.RDPbutton>();
+            Load();
+        }
+
+        /// <summary>
+        /// Load list of buttons.
+        /// </summary>
+        private void Load()
+        {
             if (File.Exists("rdp_buttons.xml"))
             {
                 XElement rdp = XElement.Load("rdp_buttons.xml");
@@ -82,7 +90,7 @@ namespace RemoteDesktop.Button
 
                 }
             }
-            else Debug.WriteLine("Not found file 'rdp_buttons.xml'");                 
+            else Debug.WriteLine("Not found file 'rdp_buttons.xml'");
         }
 
         /// <summary>

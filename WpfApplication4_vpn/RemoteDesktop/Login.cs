@@ -5,7 +5,7 @@ namespace RemoteDesktop
     /// <summary>
     /// Storing information for RDP logging.
     /// </summary>
-    public struct LoginRDP : ILogin
+    public struct LoginRDP : ILogin, IEquatable<ILogin>, IEquatable<LoginRDP>
     {
         public static readonly LoginRDP None;
 
@@ -31,12 +31,24 @@ namespace RemoteDesktop
         }
 
         public override string ToString() => $"User:{User}; Password:{Pass}";
+
+        public bool Equals(ILogin other)
+        {
+            if (User == other.User && Pass == other.Pass) return true;
+            return false;
+        }
+
+        public bool Equals(LoginRDP other)
+        {
+            if (User == other.User && Pass == other.Pass) return true;
+            return false;
+        }
     }
 
     /// <summary>
     /// Storing information for VPN logging.
     /// </summary>
-    public struct LoginVPN : ILogin
+    public struct LoginVPN : ILogin, IEquatable<ILogin>, IEquatable<LoginVPN>
     {
         public static readonly LoginVPN None;
 
@@ -66,6 +78,18 @@ namespace RemoteDesktop
         }
 
         public override string ToString() => $"Name:{Name}; User:{User}; Password:{Pass}";
+
+        public bool Equals(ILogin other)
+        {
+            if (User == other.User && Pass == other.Pass) return true;
+            return false;
+        }
+
+        public bool Equals(LoginVPN other)
+        {
+            if (User == other.User && Pass == other.Pass && Name == other.Name) return true;
+            return false;
+        }
     }
 
 }

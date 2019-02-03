@@ -3,11 +3,12 @@
 namespace RemoteDesktop.Net.RDP
 {
     /// <summary>
-    /// Creat connection width mstsc to Remote Descop Pulpit
+    /// Creat connection width mstsc to Remote Desktop Copmuter
     /// </summary>
-    class Mstsc : Net//https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/mstsc
+    public class Mstsc : AOpenCMD//https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/mstsc
     {
-        private const string mstsc = "mstsc.exe";
+        private readonly string mstsc = "mstsc.exe";
+        public override string FileName { get => mstsc; }
 
         /// <summary>Connects you to a session for administering the server.</summary>
         public static readonly string arg_admin = "/admin";
@@ -19,21 +20,18 @@ namespace RemoteDesktop.Net.RDP
         public static readonly string arg_span = "/span";
 
         /// <summary>
-        /// Initialize Mstsc class.
-        /// </summary>
-        public Mstsc()
-        {
-            FileName = mstsc;
-        }
-
-        /// <summary>
         /// Connect to RDP.
         /// </summary>
         /// <param name="ServerPort">Specifies the remote computer and, optionally, the port number to which you want to connect.</param>
         /// <returns></returns>
-        public bool ConnectRDP(string ServerPort)//[/v:<Server>[:<Port>]] 
+        public override bool Connect(string ServerPort)//[/v:<Server>[:<Port>]] 
         {
-            return ServerPort.StartsWith("/v:") ? Connect(ServerPort) : Connect($"/v:{ServerPort}");
+            Process p = new Process();
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.FileName = FileName;
+            p.StartInfo.Arguments = ServerPort.StartsWith("/v:") ? ServerPort : $"/v:{ServerPort}";
+            return p.Start();
         }
 
         /// <summary>
@@ -41,7 +39,7 @@ namespace RemoteDesktop.Net.RDP
         /// </summary>
         /// <param name="ServerPort">Specifies the remote computer and, optionally, the port number to which you want to connect.</param>
         /// <returns></returns>
-        public bool ConnectRDP(IPPort ServerPort)
+        public bool Connect(IPPort ServerPort)
         {
             return Connect(ServerPort.Parameter);
         }
@@ -52,14 +50,21 @@ namespace RemoteDesktop.Net.RDP
         /// <param name="ServerPort">Specifies the remote computer and, optionally, the port number to which you want to connect.</param>
         /// <param name="Arguments">Opctional parameters to connection</param>
         /// <returns></returns>
-        public bool ConnectRDP(string ServerPort, params string[] Arguments)//[/admin] [/f] [/w:<Width> /h:<Height>] [/public] [/span]
+        public override bool Connect(string ServerPort, params string[] Arguments)//[/admin] [/f] [/w:<Width> /h:<Height>] [/public] [/span]
         {
-            string arg = null;
-            for (int i = 0; i < Arguments.Length; i++)
-            {
-                arg += Arguments[i] + " ";
-            }
-            return ConnectRDP($"{ServerPort} {arg}");
+            string ipaddress = ServerPort.StartsWith("/v:") ? ServerPort : $"/v:{ServerPort}";
+
+            return Connect($"{ipaddress} {string.Join(" ", Arguments)}");
+        }
+
+        /// <summary>
+        /// Connect to RDP width parameter
+        /// </summary>
+        /// <param name="Arguments">Opctional parameters to connection</param>
+        /// <returns></returns>
+        public override bool Connect(params string[] Arguments)
+        {
+            return Connect(string.Join(" ", Arguments));
         }
 
         /// <summary>
@@ -68,9 +73,9 @@ namespace RemoteDesktop.Net.RDP
         /// <param name="ServerPort">Specifies the remote computer and, optionally, the port number to which you want to connect.</param>
         /// <param name="Arguments">Opctional parameters to connection</param>
         /// <returns></returns>
-        public bool ConnectRDP(IPPort ServerPort, params string[] Arguments)//[/admin] [/f] [/w:<Width> /h:<Height>] [/public] [/span]
+        public bool Connect(IPPort ServerPort, params string[] Arguments)//[/admin] [/f] [/w:<Width> /h:<Height>] [/public] [/span]
         {
-            return ConnectRDP(ServerPort.ToString(), Arguments);
+            return Connect(ServerPort.ToString(), Arguments);
         }
 
         /// <summary>
@@ -80,15 +85,7 @@ namespace RemoteDesktop.Net.RDP
         public static Process[] OpenedMstsc()
         {
             // Show all processes on the local computer.
-            return Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(mstsc));
-        }
-
-        /// <summary>
-        /// Show argument help list.
-        /// </summary>
-        public void ShowArgumentHelp()
-        {
-            Connect("/?");
+            return Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension("mstsc.exe"));
         }
 
     }

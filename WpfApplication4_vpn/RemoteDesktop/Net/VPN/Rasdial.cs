@@ -7,9 +7,12 @@ namespace RemoteDesktop.Net.VPN
     /// <summary>
     /// Creat Connection to definied VPN connection.
     /// </summary>
-    class Rasdial : Net//"https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb490979(v=technet.10)"
+    public class Rasdial : AOpenCMD//"https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb490979(v=technet.10)"
     {
         private const string rasdial = "rasdial.exe";
+
+        public override string FileName => rasdial;
+
         private const string noConnections = "No connections";
         private const string commandSucces = "Command completed successfully";
         private const string succesConnect = "Successfully connected";
@@ -18,10 +21,7 @@ namespace RemoteDesktop.Net.VPN
         /// <summary>
         /// Initializes a new instance of the Rasdial class.
         /// </summary>
-        public Rasdial()
-        {
-            FileName = rasdial;
-        }
+        public Rasdial(){}
 
         /// <summary>
         /// List of connected VPN connections.
@@ -51,7 +51,7 @@ namespace RemoteDesktop.Net.VPN
         /// </summary>
         /// <param name="VPNName">VPN name</param>
         /// <returns>true if VPN is connected</returns>
-        public bool isConnectedVPN(string VPNName)
+        public bool IsConnectedVPN(string VPNName)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace RemoteDesktop.Net.VPN
         /// <param name="Arguments">Options for connections</param>
         /// <returns>true if succesfull conection</returns>
         /// <exception cref="NetExceptions"></exception>
-        protected override bool Connect(string Arguments)
+        public override bool Connect(string Arguments)
         {
             Process p = new Process();
             p.StartInfo.UseShellExecute = false;
@@ -121,7 +121,7 @@ namespace RemoteDesktop.Net.VPN
         /// <param name="Username">User name</param>
         /// <param name="Password">Password</param>
         /// <returns>true if succesfull conection</returns>
-        public bool ConnectVPN(string VPNName, string Username, string Password)
+        public bool Connect(string VPNName, string Username, string Password)
         {
             return Connect($"\"{VPNName}\" {Username} {Password}");
         }
@@ -131,7 +131,7 @@ namespace RemoteDesktop.Net.VPN
         /// </summary>
         /// <param name="vpn">Parameter needed for connect vpn.</param>
         /// <returns>true if succesfull conection</returns>
-        public bool ConnectVPN(LoginVPN vpn)
+        public bool Connect(LoginVPN vpn)
         {
             return Connect($"\"{vpn.Name}\" {vpn.User} {vpn.Pass}");
         }
@@ -142,21 +142,16 @@ namespace RemoteDesktop.Net.VPN
         /// <param name="VPNName">VPN name</param>
         /// <param name="Arguments">Opctional argument for connecion</param>
         /// <returns>true if succesfull conection</returns>
-        public bool ConnectVPN(string VPNName, params string[] Arguments)//[/domain:domain*] [/phone:phonenumber] [/callback:callbacknumber] [/phonebook:phonebookpath] [/prefixsuffix**]
+        public override bool Connect(string VPNName, params string[] Arguments)//[/domain:domain*] [/phone:phonenumber] [/callback:callbacknumber] [/phonebook:phonebookpath] [/prefixsuffix**]
         {
-            string arg = null;
-            for (int i = 0; i < Arguments.Length; i++)
-            {
-                arg += Arguments[i] + " ";
-            }
-            return Connect($"\"{VPNName}\" {arg}");
+            return Connect($"\"{VPNName}\" {string.Join(" ",Arguments)}");
         }
 
         /// <summary>
         /// Disconect VPN connection
         /// </summary>
         /// <param name="VPNName">VPN name</param>
-        public void DisconnectVPN(string VPNName)
+        public void Disconnect(string VPNName)
         {
             //System.Diagnostics.Process.Start(rasdial, $"\"{VPNName}\" /disconnect");
             Process p = new Process();
@@ -182,5 +177,9 @@ namespace RemoteDesktop.Net.VPN
             }
         }
 
+        public override bool Connect(params string[] arguments)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
