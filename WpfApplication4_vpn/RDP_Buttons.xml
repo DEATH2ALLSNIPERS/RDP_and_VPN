@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RDP_Buttons>
+    <Button>
+      <group></group>
+      <caption>Biała Podlaska</caption>
+      <hint>DVI</hint>
+      <ipport>192.168.164.5</ipport>
+      <parameters></parameters>
+      <rdplogin>
+        <user>mzk\rgplus</user>
+        <pass>V3N4MjM0JQ==</pass>
+      </rdplogin>
+      <vpnlogin>
+        <name>Taran</name>
+        <user>rgplus</user>
+        <pass>V3N4MjM0JQ==</pass>
+      </vpnlogin>
+    </Button>
+    <Button>
+      <group>Częstochowa</group>
+      <caption>Częstochowa</caption>
+      <hint>TARAN</hint>
+      <ipport>192.168.164.6</ipport>
+      <parameters>/v:192.168.8.221</parameters>
+      <rdplogin>
+        <user>mzk\rgplus</user>
+        <pass>V3N4MjM0JQ==</pass>
+      </rdplogin>
+      <vpnlogin>
+        <name>TARAN2</name>
+        <user>mzk\rgplus</user>
+        <pass>V3N4MjM0JQ==</pass>
+      </vpnlogin>
+    </Button>
+</RDP_Buttons>

@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,6 +55,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RemoteDesktop\Encoding\Base64.cs" />
+    <Compile Include="RemoteDesktop\Encoding\CryptRDP.cs" />
+    <Compile Include="RemoteDesktop\ILogin.cs" />
+    <Compile Include="RemoteDesktop\Net\IPPort.cs" />
+    <Compile Include="RemoteDesktop\Net\Net.cs" />
+    <Compile Include="RemoteDesktop\Net\NetExceptions.cs" />
+    <Compile Include="RemoteDesktop\Net\RDP\Mstsc.cs" />
+    <Compile Include="RemoteDesktop\Net\ProcessWatcher.cs" />
+    <Compile Include="RemoteDesktop\Net\RDP\RdpFile.cs" />
+    <Compile Include="RemoteDesktop\Net\VPN\Rasdial.cs" />
+    <Compile Include="RemoteDesktop\Net\VPN\Rasphone.cs" />
+    <Compile Include="RemoteDesktop\Login.cs" />
+    <Compile Include="RemoteDesktop\Button\RDP_Buttons.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -94,6 +108,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="rdp_buttons.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
