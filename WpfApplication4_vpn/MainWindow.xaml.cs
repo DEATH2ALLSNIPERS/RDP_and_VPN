@@ -1,22 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using RemoteDesktop.Net;
+﻿using RemoteDesktop;
 using RemoteDesktop.Button;
-using RemoteDesktop;
+using RemoteDesktop.Net;
 using RemoteDesktop.Net.RDP;
+using System.Windows;
 
 namespace WpfApplication4_vpn
 {
@@ -41,19 +27,20 @@ namespace WpfApplication4_vpn
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            //var book = new RasphoneBook();
+            //var book = new RemoteDesktop.Net.VPN.RasphoneBook();
             //book.Open(book.RasphonePath);
             //var list = book.Entries;
 
             //var ras = new RemoteDesktop.Net.VPN.Rasdial();
-            //var output = ras.isConnectedVPN("TARAN");
-            //ras.ConnectVPN("TARAN3", "jpietras", "Vfr4Mju73#");
-            //ras.LaunchVPN();
+            //var output = ras.IsConnectedVPN("TARAN");
+            //ras.Connect("TARAN3", "jpietras", "Vfr4Mju73#");
 
-            //var rdp = new Mstsc();
-            //rdp.ShowArgumentHelp();
-            //rdp.ConnectRDP("10.250.9.12");
-            //var mc = Mstsc.OpenedMstsc();
+            //RemoteDesktop.Net.VPN.Rasdial.LaunchVPN();
+
+            var rdp = new Mstsc();
+            rdp.ShowArgumentHelp();
+            rdp.Connect("10.250.9.12");
+            var mc = Mstsc.OpenedMstsc();
 
             RdpFile rf = new RdpFile()
             {
