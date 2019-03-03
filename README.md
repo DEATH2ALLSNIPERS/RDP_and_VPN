@@ -23,22 +23,27 @@ using  RemoteDesktop.Net.VPN;
 ````csharp
 using  RemoteDesktop.Net.RDP;
 
-    //
+    //Creat instatnce
     var rdp = new Mstsc();
+    //Schow argumnet help in console
     rdp.ShowArgumentHelp();
 
-    rdp.ConnectRDP("10.250.9.12");
+    //Connect to ip address
+    rdp.ConnectRDP("192.168.0.1");
+    //list opened remote desktop app.
     var mc = Mstsc.OpenedMstsc();
 ````
 ````csharp
-    //
+    //Creat rdp file width parameter
     RdpFile rf = new RdpFile()
     {
         FullAddress = IPPort.Parse("192.168.0.1"),
-        UserName = "rgplus",
-        Password = "GRPlus123#"
+        UserName = "username",
+        Password = "password"
     };
     rf.Save("Test0.rdp");
+    
+    //encoding password from rdp file
     var upr = RemoteDesktop.Encoding.CryptRDP.Unprotect("01000000D08C9DDF0115...");
 ````
 
@@ -69,11 +74,11 @@ public partial class MainWindow : Window
 ````csharp
     RDP_Buttons but = new RDP_Buttons();
 
-    but.Buttons.Add(new RDPbutton("Grupa", "caption", "hin", IPPort.Parse("192.168.0.154"), "/admin", new LoginRDP("jpietras", "RGPlus123#"), new LoginVPN("TARAN", "jpietras", "RGPlus123#")));
+    but.Buttons.Add(new RDPbutton("Grupa", "caption", "hin", IPPort.Parse("192.168.0.1"), "/admin", new LoginRDP("username", "password"), new LoginVPN("VPN_Name", "login", "password")));
 
-    but.Buttons.Add(new RDPbutton("grup", "cap", "hint", IPPort.Parse("192.168.34.154:80"), "", new LoginRDP("jpietras11", "RGPlus11"), new LoginVPN("Jastrzębie", "jpietras", "RGPlus123#")));
+    but.Buttons.Add(new RDPbutton("grup", "cap", "hint", IPPort.Parse("192.168.0.2"), "", new LoginRDP("username", "password"), new LoginVPN("VPN_Name", "login", "password")));
 
-    but.Buttons.Add(new RDPbutton("grup", "cap", "hint", IPPort.Parse("192.168.34.154:80"), "", new LoginRDP("jpietras12", "RGPlus12"), new LoginVPN()));
+    but.Buttons.Add(new RDPbutton("grup", "cap", "hint", IPPort.Parse("192.168.1.3"), "", new LoginRDP("username", "password"), new LoginVPN()));
 
     but.Save();
 ````
